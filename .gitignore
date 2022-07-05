@@ -1,0 +1,9 @@
+survivor_num.tsv
+points_sum.tsv
+.~lock.graph_generation_sample.ods#
+
+# IntelliJ
+*.iml
+out/
+.idea/
+hs_err_pid*

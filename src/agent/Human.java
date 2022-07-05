@@ -1,0 +1,53 @@
+package agent;
+
+import question.Candidate;
+import question.Kind;
+import question.Question;
+
+/**
+ * This agent chooses an option like a human,
+ * if there is a possibility of profit, choose a fixed points option,
+ * and if there is a possibility of loss, choose a probabilistic points option.
+ */
+public class Human implements Agent {
+    private int point = FIRST_POINT;
+    private boolean dead = false;
+
+    @Override
+    public void choose(Question question) {
+        if (question.kind() == Kind.PROFIT) {
+            point = point + question.fixedPoint();
+            return;
+        } else {
+            var r = RANDOM.nextDouble();
+            var probabilitySum = 0.0;
+            for (Candidate candidate : question.candidateList()) {
+                probabilitySum += candidate.probability();
+                if (r < probabilitySum) {
+                    point = point + candidate.point();
+                    return;
+                }
+            }
+        }
+    }
+
+    @Override
+    public int point() {
+        return point;
+    }
+
+    @Override
+    public void die() {
+        dead = true;
+    }
+
+    @Override
+    public boolean dead() {
+        return dead;
+    }
+
+    @Override
+    public String toString() {
+        return "point=" + point;
+    }
+}
